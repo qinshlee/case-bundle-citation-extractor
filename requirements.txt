@@ -1,8 +1,3 @@
-altair
-numpy
-pandas
-pydeck
 streamlit
-io
 re
 contextlib
