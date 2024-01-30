@@ -23,11 +23,11 @@ def display_results(results):
 	"""Takes a list	of strings and displays it string by string, in a Streamlit container."""
 	st.write('Here are the results:\n')
 	container = st.container(border=True)
-	try:
+	if results == []:
+		container.write('Nil results.')
+	else:
 		for i in results: 
 			container.write(i)
-	finally:
-		container.write('Nil results.')
 
 # Title of page
 
