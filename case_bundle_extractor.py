@@ -27,7 +27,7 @@ def display_results(results):
 		for i in results: 
 			container.write(i)
 	finally:
-		st.write('There are no results.')
+		st.write('Nil.')
 
 # Title of page
 
@@ -84,7 +84,7 @@ if uploaded_file == None:
 	with suppress(NameError):
 		st.markdown('Please upload file in Step 1 first.')
 elif user_input2 == None and uploaded_file != None:
-	st.markdown('There are no results.')
+	st.markdown('Please input abbreviation.')
 elif re.fullmatch(r'[A-Z]{2,10}', user_input2) == None and uploaded_file != None:
     st.markdown('Invalid keyword.')
 else:	
