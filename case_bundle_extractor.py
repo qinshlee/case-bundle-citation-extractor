@@ -27,7 +27,7 @@ def display_results(results):
 		for i in results: 
 			container.write(i)
 	finally:
-		st.write('Nil.')
+		container.write('Nil results.')
 
 # Title of page
 
