@@ -2,6 +2,8 @@
 
 import streamlit as st
 from io import StringIO
+import docx2txt
+import pdfplumber
 import re
 from contextlib import suppress
 
@@ -39,12 +41,13 @@ st.caption('Prototype, Ver 1.0')
 
 st.divider()
 
-uploaded_file = st.file_uploader('Step 1: Please upload text files here.')
+uploaded_file = st.file_uploader('Step 1: Please upload text files here.', type=['txt','docx','pdf'])
 if uploaded_file is not None:
-	# To convert to a string based IO:
-	stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
-	# To read file as string:
-	court_sub = stringio.read()
+	if uploaded_file.type == 'text/plain':
+		stringio = StringIO(uploaded_file.getvalue().decode("utf-8")) # To convert to a string based IO:
+		court_sub = stringio.read() # To read file as string:
+	elif uploaded_file.type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+		court_sub = docx2txt.process(uploaded_file)
 else:
 	st.markdown("File not uploaded yet.")
 
