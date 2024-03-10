@@ -39,7 +39,7 @@ st.caption('Prototype, Ver 1.0')
 
 st.divider()
 
-uploaded_file = st.file_uploader('Step 1: Please upload text files here.',type='txt')
+uploaded_file = st.file_uploader('Step 1: Please upload text files here.')
 if uploaded_file is not None:
 	# To convert to a string based IO:
 	stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
@@ -72,7 +72,7 @@ if uploaded_file == None:
 elif user_input1 == None and uploaded_file != None:
 	st.markdown('There are no results.')
 else:
-	regex1 = fr'(?<=\s){text_A}\s.+?of\sthe\s.{{0,85}}{text_B}\s.{{0,125}}(?=\s)'
+	regex1 = fr'(?<=\s){text_A}\s.{{0,125}}?of\sthe\s.{{0,85}}{text_B}\s.{{0,125}}(?=\s)'
 	results1 = regex_search(regex1, court_sub, ignore_case=True)
 	display_results(results1)
 
@@ -88,7 +88,7 @@ elif user_input2 == None and uploaded_file != None:
 elif re.fullmatch(r'[A-Z]{2,10}', user_input2) == None and uploaded_file != None:
     st.markdown('Invalid keyword.')
 else:	
-	regex2 = fr'(?<=\s)(?:[sS]{{1,2}}|[sS]ection|[aA]rt|[aA]rticle|[oO]|[oO]rdinance)\s.+?of\sthe\s.{{0,85}}?{user_input2}\s.{{0,125}}(?=\s)'
+	regex2 = fr'(?<=\s)(?:[sS]{{1,2}}|[sS]ection|[aA]rt|[aA]rticle|[oO]|[oO]rdinance)\s.{{0,125}}?of\sthe\s.{{0,85}}?{user_input2}\s.{{0,125}}(?=\s)'
 	results2 = regex_search(regex2, court_sub, ignore_case=False)
 	display_results(results2)
 	
