@@ -3,7 +3,7 @@
 import streamlit as st
 from io import StringIO
 import docx2txt
-import pdfplumber
+import PyPDF2 as PDF2
 import re
 from contextlib import suppress
 
@@ -31,6 +31,16 @@ def display_results(results):
 		for i in results: 
 			container.write(i)
 
+# Define function to read pdf and post-process extracted text, keep code below mmore readable.
+
+def read_pdf(pdf_file):
+	reader = PDF2.PdfReader(pdf_file)
+	extracted_text = ""
+	for page_num in range(2, len(reader.pages)): # Start reading from Page 2 as contents generally start from Page 3 onwards
+		page = reader.pages[page_num]
+		extracted_text += page.extract_text()
+	return extracted_text
+
 # Title of page
 
 st.title('Case bundle citation extractor')
@@ -41,13 +51,15 @@ st.caption('Prototype, Ver 1.0')
 
 st.divider()
 
-uploaded_file = st.file_uploader('Step 1: Please upload text files here.', type=['txt','docx','pdf'])
+uploaded_file = st.file_uploader('Step 1: Please upload text files here, preferably .docx or .txt files.', type=['txt','docx','pdf'])
 if uploaded_file is not None:
 	if uploaded_file.type == 'text/plain':
 		stringio = StringIO(uploaded_file.getvalue().decode("utf-8")) # To convert to a string based IO:
 		court_sub = stringio.read() # To read file as string:
 	elif uploaded_file.type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
 		court_sub = docx2txt.process(uploaded_file)
+	elif uploaded_file.type == 'application/pdf':
+		court_sub = read_pdf(uploaded_file)
 else:
 	st.markdown("File not uploaded yet.")
 
